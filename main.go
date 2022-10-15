@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"stegano/examp"
 )
 
 func main() {
 	fmt.Println("Hello world!")
-	a := examp.exagger()
-	fmt.Println(a)
+	fmt.Println(examp.Exaggerretde())
+	fmt.Println(examp.Next())
 }

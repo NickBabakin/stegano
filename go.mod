@@ -1,3 +1,3 @@
-module github.com/NickBabakin/stegano
+module stegano
 
 go 1.13

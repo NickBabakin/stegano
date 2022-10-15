@@ -1,5 +1,9 @@
 package examp
 
-func exagger() string {
-	return "Pls work"
+func Exaggerretde() string {
+	return "Pls wocadesrk"
+}
+
+func Next() string {
+	return "next"
 }
