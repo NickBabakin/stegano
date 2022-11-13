@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/NickBabakin/stegano/standartstegano"
@@ -35,7 +36,6 @@ func TestFullWithText(t *testing.T) {
 }
 
 func TestFullBmp(t *testing.T) {
-
 	fileData, err := ioutil.ReadFile("abc.bmp")
 	container := fileData[100:]
 	testErr(err, t)
@@ -52,10 +52,16 @@ func TestFullBmp(t *testing.T) {
 
 	fmt.Printf("\n--------------------------------\n")
 
+	fileDataDec, err := ioutil.ReadFile("file.bmp")
+	container = fileDataDec[100:]
+	testErr(err, t)
 	decryptedMessage, err := standartstegano.PerformStandartDecryption(container, bytesOfSize)
 	testErr(err, t)
 	fmt.Printf("Extracted from container message: \n - %s\n\n", decryptedMessage)
 	if string(decryptedMessage) != string(message) {
 		t.Errorf("\nexpected: %s\ngot: %s", decryptedMessage, message)
 	}
+
+	os.Remove("file.bmp")
+
 }
