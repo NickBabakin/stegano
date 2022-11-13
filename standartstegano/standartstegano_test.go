@@ -6,7 +6,7 @@ import (
 
 func TestPerformStandartEncryption(t *testing.T) {
 	container := []byte("Hello, World! This is my first day here. I am so glad to see all of you")
-	err := PerformStandartEncryption(container, []byte("Love"), 2)
+	err := PerformStandartEncryption(container, []byte("Love"))
 	containerWithHiddenMessage := []byte("Hdlln, Vnrld !Thhs hs!lx girsu!e`y!idse. I!`l!ro glad to see all of you")
 	if err != nil {
 		t.Errorf("Error: %s", err.Error())
@@ -18,7 +18,7 @@ func TestPerformStandartEncryption(t *testing.T) {
 
 func TestPerformStandarDecryption(t *testing.T) {
 	container := []byte("Hdlln, Vnrld !Thhs hs!lx girsu!e`y!idse. I!`l!ro glad to see all of you")
-	decryptedMessage, err := PerformStandartDecryption(container, 2)
+	decryptedMessage, err := PerformStandartDecryption(container)
 	message := "Love"
 	if err != nil {
 		t.Errorf("Error: %s", err.Error())

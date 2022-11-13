@@ -20,14 +20,13 @@ func TestFullWithText(t *testing.T) {
 	message := []byte("Love")
 	fmt.Printf("\nMessage: \n - %s\n", message)
 	fmt.Printf("Container: \n - %s\n", container)
-	bytesOfSize := 2
-	err := standartstegano.PerformStandartEncryption(container, message, bytesOfSize)
+	err := standartstegano.PerformStandartEncryption(container, message)
 	testErr(err, t)
 	fmt.Printf("Container with hidden message: \n - %s\n", container)
 
 	fmt.Printf("\n--------------------------------\n")
 
-	decryptedMessage, err := standartstegano.PerformStandartDecryption(container, bytesOfSize)
+	decryptedMessage, err := standartstegano.PerformStandartDecryption(container)
 	testErr(err, t)
 	fmt.Printf("Extracted from container message: \n - %s\n\n", decryptedMessage)
 	if string(decryptedMessage) != string(message) {
@@ -43,8 +42,7 @@ func TestFullBmp(t *testing.T) {
 	message := []byte("Love")
 	fmt.Printf("\nMessage: \n - %s\n", message)
 	fmt.Printf("Container: \n - %s\n", container[:100])
-	bytesOfSize := 2
-	err = standartstegano.PerformStandartEncryption(container, message, bytesOfSize)
+	err = standartstegano.PerformStandartEncryption(container, message)
 	testErr(err, t)
 	fmt.Printf("Container with hidden message: \n - %s\n", container[:100])
 	err = ioutil.WriteFile("file.bmp", fileData, 0600)
@@ -55,7 +53,7 @@ func TestFullBmp(t *testing.T) {
 	fileDataDec, err := ioutil.ReadFile("file.bmp")
 	container = fileDataDec[100:]
 	testErr(err, t)
-	decryptedMessage, err := standartstegano.PerformStandartDecryption(container, bytesOfSize)
+	decryptedMessage, err := standartstegano.PerformStandartDecryption(container)
 	testErr(err, t)
 	fmt.Printf("Extracted from container message: \n - %s\n\n", decryptedMessage)
 	if string(decryptedMessage) != string(message) {

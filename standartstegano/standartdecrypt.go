@@ -21,7 +21,7 @@ func standartDecrypt(container []byte) ([]byte, error) {
 	return decryptedData, nil
 }
 
-func PerformStandartDecryption(container []byte, bytesOfSize int) ([]byte, error) {
+func PerformStandartDecryption(container []byte) ([]byte, error) {
 	sizeData, err := standartDecrypt(container[:bytesOfSize*8])
 	if err != nil {
 		return nil, err

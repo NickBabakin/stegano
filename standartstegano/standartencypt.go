@@ -6,6 +6,8 @@ import (
 	"math"
 )
 
+var bytesOfSize = 2
+
 func GetBit(b byte, bitNumber int) byte {
 	return (b >> (7 - bitNumber) & 1)
 }
@@ -41,7 +43,7 @@ func standartEncrypt(container []byte, data []byte) error {
 	return nil
 }
 
-func PerformStandartEncryption(container []byte, data []byte, bytesOfSize int) error {
+func PerformStandartEncryption(container []byte, data []byte) error {
 	if err := checkCapacity(len(container), len(data), bytesOfSize); err != nil {
 		return err
 	}
