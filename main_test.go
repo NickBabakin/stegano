@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 
+	"github.com/NickBabakin/stegano/filetools"
 	"github.com/NickBabakin/stegano/standartstegano"
 )
 
@@ -35,8 +35,8 @@ func TestFullWithText(t *testing.T) {
 }
 
 func TestFullBmp(t *testing.T) {
-	fileData, err := ioutil.ReadFile("abc.bmp")
-	container := fileData[100:]
+	fileData, infoOffset, err := filetools.ParseBmp("abc.bmp")
+	container := fileData[infoOffset:]
 	testErr(err, t)
 
 	message := []byte("Love")
@@ -45,13 +45,13 @@ func TestFullBmp(t *testing.T) {
 	err = standartstegano.PerformStandartEncryption(container, message)
 	testErr(err, t)
 	fmt.Printf("Container with hidden message: \n - %s\n", container[:100])
-	err = ioutil.WriteFile("file.bmp", fileData, 0600)
+	err = filetools.WriteBmp("file.bmp", fileData)
 	testErr(err, t)
 
 	fmt.Printf("\n--------------------------------\n")
 
-	fileDataDec, err := ioutil.ReadFile("file.bmp")
-	container = fileDataDec[100:]
+	fileDataDec, infoOffset, err := filetools.ParseBmp("file.bmp")
+	container = fileDataDec[infoOffset:]
 	testErr(err, t)
 	decryptedMessage, err := standartstegano.PerformStandartDecryption(container)
 	testErr(err, t)

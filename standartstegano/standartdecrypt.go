@@ -2,6 +2,7 @@ package standartstegano
 
 import (
 	"encoding/binary"
+	"errors"
 )
 
 func standartDecrypt(container []byte) ([]byte, error) {
@@ -22,6 +23,9 @@ func standartDecrypt(container []byte) ([]byte, error) {
 }
 
 func PerformStandartDecryption(container []byte) ([]byte, error) {
+	if len(container) < bytesOfSize*8 {
+		return nil, errors.New("file corrupted")
+	}
 	sizeData, err := standartDecrypt(container[:bytesOfSize*8])
 	if err != nil {
 		return nil, err
@@ -29,6 +33,9 @@ func PerformStandartDecryption(container []byte) ([]byte, error) {
 	sizeDataHelper := make([]byte, 4-len(sizeData), 4)
 	sizeData = append(sizeDataHelper, sizeData...)
 	dataLen := int(binary.BigEndian.Uint32(sizeData))
+	if len(container) < bytesOfSize*8+dataLen*8 {
+		return nil, errors.New("file corrupted")
+	}
 	decryptedData, err := standartDecrypt(container[bytesOfSize*8 : bytesOfSize*8+dataLen*8])
 	return decryptedData, err
 }
