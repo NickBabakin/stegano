@@ -5,13 +5,13 @@ import (
 	"errors"
 )
 
-func standartDecrypt(container []byte) ([]byte, error) {
-	decryptedData := make([]byte, len(container)/8)
+func standartExtract(container []byte) ([]byte, error) {
+	extractedData := make([]byte, len(container)/8)
 	bitNumber := 0
 	byteNumber := 0
 	for containerCount := 0; containerCount < len(container); containerCount++ {
 		bit := GetBit(container[containerCount], 7)
-		decryptedData[byteNumber] = decryptedData[byteNumber] | bit<<(7-byte(bitNumber))
+		extractedData[byteNumber] = extractedData[byteNumber] | bit<<(7-byte(bitNumber))
 		if bitNumber == 7 {
 			bitNumber = 0
 			byteNumber++
@@ -19,14 +19,14 @@ func standartDecrypt(container []byte) ([]byte, error) {
 			bitNumber++
 		}
 	}
-	return decryptedData, nil
+	return extractedData, nil
 }
 
-func PerformStandartDecryption(container []byte) ([]byte, error) {
+func PerformStandartExtraction(container []byte) ([]byte, error) {
 	if len(container) < bytesOfSize*8 {
 		return nil, errors.New("file corrupted")
 	}
-	sizeData, err := standartDecrypt(container[:bytesOfSize*8])
+	sizeData, err := standartExtract(container[:bytesOfSize*8])
 	if err != nil {
 		return nil, err
 	}
@@ -36,6 +36,6 @@ func PerformStandartDecryption(container []byte) ([]byte, error) {
 	if len(container) < bytesOfSize*8+dataLen*8 {
 		return nil, errors.New("file corrupted")
 	}
-	decryptedData, err := standartDecrypt(container[bytesOfSize*8 : bytesOfSize*8+dataLen*8])
-	return decryptedData, err
+	extractedData, err := standartExtract(container[bytesOfSize*8 : bytesOfSize*8+dataLen*8])
+	return extractedData, err
 }

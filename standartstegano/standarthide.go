@@ -18,7 +18,7 @@ func powInt(x, y int) int64 {
 
 func checkCapacity(containerLen int, dataLen int, bytesOfSize int) error {
 	if powInt(2, 8*bytesOfSize) < int64(dataLen) {
-		return errors.New("not enough bits to encrypt size")
+		return errors.New("not enough bits to hide size")
 	}
 	if containerLen < (dataLen+bytesOfSize)*8 {
 		return errors.New("container too small to fit this data")
@@ -26,7 +26,7 @@ func checkCapacity(containerLen int, dataLen int, bytesOfSize int) error {
 	return nil
 }
 
-func standartEncrypt(container []byte, data []byte) error {
+func standartHide(container []byte, data []byte) error {
 	containerCount := 0
 	for byteNumber := 0; byteNumber < len(data); byteNumber++ {
 		//fmt.Printf("%.8b\n", data[byteNumber])
@@ -43,16 +43,16 @@ func standartEncrypt(container []byte, data []byte) error {
 	return nil
 }
 
-func PerformStandartEncryption(container []byte, data []byte) error {
+func PerformStandartHiding(container []byte, data []byte) error {
 	if err := checkCapacity(len(container), len(data), bytesOfSize); err != nil {
 		return err
 	}
 	sizeData := make([]byte, 4)
 	binary.BigEndian.PutUint32(sizeData, uint32(len(data)))
-	if err := standartEncrypt(container[:bytesOfSize*8], sizeData[4-bytesOfSize:4]); err != nil {
+	if err := standartHide(container[:bytesOfSize*8], sizeData[4-bytesOfSize:4]); err != nil {
 		return err
 	}
-	if err := standartEncrypt(container[bytesOfSize*8:], data); err != nil {
+	if err := standartHide(container[bytesOfSize*8:], data); err != nil {
 		return err
 	}
 	return nil
